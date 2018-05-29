@@ -26,9 +26,21 @@ public class JsonStatusException extends Exception {
 	int statusCode;
 	
 	public JsonStatusException(int statusCode) {
+		super(selectErrorMessage(statusCode));
 		this.statusCode = statusCode;
 	}
 	
+	private static String selectErrorMessage(int statusCode) {
+		switch(statusCode) {
+		case 403:
+			return "The user does not have permission to access the page requested.";
+		case 404:
+			return "The page could not be found.";
+		default:
+			return "The server returned HTTP status " + statusCode;
+		}
+	}
+
 	public int getStatusCode() {
 		return statusCode;
 	}

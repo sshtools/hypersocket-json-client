@@ -278,7 +278,6 @@ public class JsonClient {
 		
 		try(Response response = getClient().newCall(request).execute()) {
 			
-
 			if(response.code()!=200) {
 				throw new JsonStatusException(response.code());
 			}
