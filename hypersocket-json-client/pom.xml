@@ -38,8 +38,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>https://github.com/sshtools/j2ssh-maverick/</url>
-		<connection>https://github.com/sshtools/j2ssh-maverick.git</connection>
+		<url>https://github.com/sshtools/hypersocket-json-client/</url>
+		<connection>https://github.com/sshtools/hypersocket-json-client.git</connection>
 	</scm>
 	<developers>
 		<developer>
@@ -151,9 +151,6 @@
 					<execution>
 						<id>sign-artifacts</id>
 						<phase>verify</phase>
-						<configuration>
-							<keyname>7B1D2957811292845593F28304325A724EA4BBE8</keyname>
-						</configuration>
 						<goals>
 							<goal>sign</goal>
 						</goals>
