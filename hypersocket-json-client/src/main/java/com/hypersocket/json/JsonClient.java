@@ -73,6 +73,7 @@ public class JsonClient {
 	String path;
 	String scheme = "basic";
 	CookieJar cookies = null;
+	ServerInfo info;
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	
 //	public JsonClient(String hostname, int port, String path) throws IOException {
@@ -99,7 +100,7 @@ public class JsonClient {
 			}
 			
 			String json = doGet("/discover");
-			ServerInfo info = mapper.readValue(json, ServerInfo.class);
+			this.info = mapper.readValue(json, ServerInfo.class);
 			this.path = info.getBasePath();
 			
 			if(log.isInfoEnabled()) {
@@ -109,6 +110,10 @@ public class JsonClient {
 		} catch (JsonStatusException e) {
 			throw new IOException(e.getMessage(), e);
 		}
+	}
+	
+	public String getVersion() {
+		return info.getVersion();
 	}
 	
 	protected OkHttpClient getClient() throws NoSuchAlgorithmException, KeyManagementException {
