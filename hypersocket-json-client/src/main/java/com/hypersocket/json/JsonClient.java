@@ -76,16 +76,6 @@ public class JsonClient {
 	ServerInfo info;
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	
-//	public JsonClient(String hostname, int port, String path) throws IOException {
-//		this.hostname = hostname;
-//		this.port = port;
-//		this.path = path;
-//	}
-//	
-//	public JsonClient(String hostname, int port) throws IOException {
-//		this(hostname, port, false);
-//	}
-	
 	public JsonClient(String hostname, int port, boolean allowSelfSigned) throws IOException {
 		this.hostname = hostname;
 		this.port = port;
@@ -215,6 +205,7 @@ public class JsonClient {
 			return false;
 		}
 	}
+	
 	public String debugJSON(String json) throws JsonParseException,
 			JsonMappingException, IOException {
 		if(debug) {
