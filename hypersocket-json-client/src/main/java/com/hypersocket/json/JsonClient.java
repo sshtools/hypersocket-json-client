@@ -306,25 +306,30 @@ public class JsonClient {
 		} 
 	}
 
-	public <T> T doDelete(String url, Class<T> clz)
+	public <T> T doDelete(String url, Class<T> clz, RequestParameter... postVariables)
 			throws IOException, JsonStatusException {
 		
-		String json = doDelete(url);
+		String json = doDelete(url, postVariables);
 		
 		debugJSON(json);
 		
 		return mapper.readValue(json, clz);
 	}
 	
-	public String doDelete(String url)
+	public String doDelete(String url, RequestParameter... postVariables)
 			throws IOException, JsonStatusException {
 
 		url = HypersocketUtils.encodeURIPath(url);
 		
+		FormBody.Builder builder = new FormBody.Builder();
+		for(RequestParameter param : postVariables) {
+			builder.add(param.getName(), param.getValue());
+		}
+		
 		Request request = new Request.Builder()
 		        .url(buildUrl(url))
 		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())
-		        .delete()
+		        .delete(builder.build())
 		        .build();
 		
 		try(Response response = getClient().newCall(request).execute()) {

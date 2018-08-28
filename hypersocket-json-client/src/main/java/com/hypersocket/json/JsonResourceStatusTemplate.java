@@ -27,7 +27,7 @@ public class JsonResourceStatusTemplate<T> {
 
 	boolean success;
 	String error;
-	
+	String message;
 	T resource;
 	
 	public boolean isSuccess() {
@@ -53,5 +53,14 @@ public class JsonResourceStatusTemplate<T> {
 	public void setResource(T resource) {
 		this.resource = resource;
 	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 	
 }

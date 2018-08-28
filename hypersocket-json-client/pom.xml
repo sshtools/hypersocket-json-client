@@ -25,7 +25,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sshtools</groupId>
 	<artifactId>hypersocket-json-client</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>Hypersocket JSON Client</name>
 	<description>Implements a Java JSON client that can be used with to communicate with a Hypersocket Framework server</description>
 	<url>https://github.com/sshtools/hypersocket-json-client</url>
