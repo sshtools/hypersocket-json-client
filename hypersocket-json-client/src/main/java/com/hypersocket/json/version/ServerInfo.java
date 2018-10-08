@@ -18,32 +18,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.utils;
+package com.hypersocket.json.version;
 
-import java.util.HashMap;
-import java.util.Map;
+public class ServerInfo {
 
-public class StaticResolver implements ITokenResolver {
-
-	Map<String,Object> tokens = new HashMap<String,Object>();
-	public StaticResolver() {
-		
-	}
+	String basePath;
+	String version;
 	
-	protected void addToken(String name, Object value) {
-		tokens.put(name, value);
-	}
-	
-	@Override
-	public final String resolveToken(String tokenName) {
-		Object obj = tokens.get(tokenName);
-		if(obj==null) {
-			return "";
-		}
-		return obj.toString();
+	public ServerInfo() {
 	}
 
-	public Map<String,Object> getData() {
-		return  tokens;
+	public String getBasePath() {
+		return basePath;
 	}
+
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	
 }

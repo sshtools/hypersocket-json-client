@@ -18,8 +18,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.input;
 
-public enum InputFieldType {
-	text, textarea, password, select, hidden, p, a, script, div, pre, img, checkbox, html;
+public class TextInputField extends InputField {
+
+
+	public TextInputField(String resourceKey, String defaultValue, boolean required, String label) {
+		super(InputFieldType.text, resourceKey, defaultValue, required, label);
+	}
 }

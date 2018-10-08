@@ -18,12 +18,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.input;
 
-public class TextAreaField extends InputField {
+public class AnchorField extends InputField {
 
-	public TextAreaField(String resourceKey, String defaultValue, boolean required,
-			String label) {
-		super(InputFieldType.textarea, resourceKey, defaultValue, required, label);
+	boolean isLogonApiLink = true;
+
+	public AnchorField() {
+	}
+
+	public AnchorField(String resourceKey,
+			String defaultValue, boolean required, String label) {
+		super(InputFieldType.a, resourceKey, defaultValue, required, label);
+	}
+	
+	public AnchorField(String resourceKey,
+			String defaultValue, boolean required, String label, boolean isLogonApiLink) {
+		super(InputFieldType.a, resourceKey, defaultValue, required, label);
+		this.isLogonApiLink = isLogonApiLink;
+	}
+	
+	public boolean isLogonApiLink() {
+		return isLogonApiLink;
+	}
+
+	public void setLogonApiLink(boolean isLogonApiLink) {
+		this.isLogonApiLink = isLogonApiLink;
 	}
 }

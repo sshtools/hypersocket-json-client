@@ -18,18 +18,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.input;
 
-public class PreField extends InputField {
 
-	boolean isValueResourceKey;
-	
-	public PreField(String defaultValue, boolean isValueResourceKey) {
-		super(InputFieldType.pre, "preField", defaultValue, false, "");
-		this.isValueResourceKey = isValueResourceKey;
+public class SelectInputField extends InputField {
+
+	public SelectInputField() {	
 	}
 	
-	public boolean isValueResourceKey() {
-		return isValueResourceKey;
+	public SelectInputField(String resourceKey, String defaultValue, boolean required, String label) {
+		super(InputFieldType.select, resourceKey, defaultValue, required, label);
 	}
+
 }

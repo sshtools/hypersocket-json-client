@@ -21,7 +21,7 @@
 package com.hypersocket.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hypersocket.HypersocketVersion;
+import com.hypersocket.json.version.HypersocketVersion;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AuthenticationResult {

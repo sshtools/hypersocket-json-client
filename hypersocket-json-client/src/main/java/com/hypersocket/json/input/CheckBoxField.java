@@ -18,12 +18,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.input;
 
-public class TextInputField extends InputField {
+public class CheckBoxField extends InputField {
 
+	public CheckBoxField(String resourceKey, String defaultValue) {
+		super(InputFieldType.checkbox, resourceKey, defaultValue, true, "");
+	}
 
-	public TextInputField(String resourceKey, String defaultValue, boolean required, String label) {
-		super(InputFieldType.text, resourceKey, defaultValue, required, label);
+	public CheckBoxField(String resourceKey, String defaultValue, String infoKey) {
+		super(InputFieldType.checkbox, resourceKey, defaultValue, true, "", infoKey);
 	}
 }

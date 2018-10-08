@@ -18,15 +18,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.input;
 
-public class DivField extends InputField {
+public class PreField extends InputField {
 
-	public DivField() {
+	boolean isValueResourceKey;
+	
+	public PreField(String defaultValue, boolean isValueResourceKey) {
+		super(InputFieldType.pre, "preField", defaultValue, false, "");
+		this.isValueResourceKey = isValueResourceKey;
 	}
-
-	public DivField(String resourceKey, String defaultValue) {
-		super(InputFieldType.div, resourceKey, defaultValue, true, null);
+	
+	public boolean isValueResourceKey() {
+		return isValueResourceKey;
 	}
-
 }

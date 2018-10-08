@@ -20,7 +20,7 @@
  */
 package com.hypersocket.json;
 
-import com.hypersocket.input.FormTemplate;
+import com.hypersocket.json.input.FormTemplate;
 
 
 public class AuthenticationRequiredResult extends AuthenticationResult {

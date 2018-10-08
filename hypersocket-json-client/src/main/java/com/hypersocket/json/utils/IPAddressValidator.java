@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.utils;
+package com.hypersocket.json.utils;
 
 /**
  * From http://www.mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/

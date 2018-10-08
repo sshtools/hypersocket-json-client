@@ -18,14 +18,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.utils;
 
-public class ImgField extends InputField {
+import java.util.Map;
 
-	public ImgField() {
+public class TokenAdapter implements ITokenResolver {
+
+	public TokenAdapter() {
 	}
 
-	public ImgField(String resourceKey, String defaultValue) {
-		super(InputFieldType.img, resourceKey, defaultValue, true, null);
+	@Override
+	public String resolveToken(String tokenName) {
+		return null;
 	}
+
+	@Override
+	public Map<String, Object> getData() {
+		return null;
+	}
+
 }

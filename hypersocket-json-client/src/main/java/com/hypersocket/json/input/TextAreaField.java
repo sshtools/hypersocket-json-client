@@ -18,31 +18,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket;
+package com.hypersocket.json.input;
 
-public class ServerInfo {
+public class TextAreaField extends InputField {
 
-	String basePath;
-	String version;
-	
-	public ServerInfo() {
+	public TextAreaField(String resourceKey, String defaultValue, boolean required,
+			String label) {
+		super(InputFieldType.textarea, resourceKey, defaultValue, required, label);
 	}
-
-	public String getBasePath() {
-		return basePath;
-	}
-
-	public void setBasePath(String basePath) {
-		this.basePath = basePath;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	
 }

@@ -44,8 +44,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hypersocket.ServerInfo;
-import com.hypersocket.utils.HypersocketUtils;
+import com.hypersocket.json.utils.HypersocketUtils;
+import com.hypersocket.json.version.ServerInfo;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -113,6 +113,7 @@ public class JsonClient {
 		}
 		
 		OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().readTimeout(30, TimeUnit.SECONDS);
+		clientBuilder.connectTimeout(10, TimeUnit.SECONDS);
 	    clientBuilder.cookieJar(new CookieMonster());
 	    
 		if(allowSelfSigned) {
@@ -288,7 +289,7 @@ public class JsonClient {
 			IOException, JsonStatusException {
 
 		url = HypersocketUtils.encodeURIPath(url);
-		
+
 		Request request = new Request.Builder()
 		        .url(buildUrl(url))
 		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())

@@ -18,11 +18,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.input;
 
-public class JavaScriptField extends InputField {
+public class ParagraphField extends InputField {
+
+	boolean isValueResourceKey;
 	
-	public JavaScriptField(String resourceKey, String script) {
-		super(InputFieldType.script, resourceKey, script, false, "");
+	public ParagraphField(String defaultValue, boolean isValueResourceKey) {
+		super(InputFieldType.p, "paragraphField", defaultValue, false, "");
+		this.isValueResourceKey = isValueResourceKey;
+	}
+	
+	public boolean isValueResourceKey() {
+		return isValueResourceKey;
 	}
 }

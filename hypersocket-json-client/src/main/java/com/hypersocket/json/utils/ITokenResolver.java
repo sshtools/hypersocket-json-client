@@ -18,18 +18,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hypersocket.input;
+package com.hypersocket.json.utils;
 
-public class ParagraphField extends InputField {
+import java.util.Map;
 
-	boolean isValueResourceKey;
-	
-	public ParagraphField(String defaultValue, boolean isValueResourceKey) {
-		super(InputFieldType.p, "paragraphField", defaultValue, false, "");
-		this.isValueResourceKey = isValueResourceKey;
-	}
-	
-	public boolean isValueResourceKey() {
-		return isValueResourceKey;
-	}
+public interface ITokenResolver {
+
+    public String resolveToken(String tokenName);
+
+	public Map<String,Object> getData();
 }
