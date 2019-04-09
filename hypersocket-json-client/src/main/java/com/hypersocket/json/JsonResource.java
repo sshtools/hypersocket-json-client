@@ -27,6 +27,7 @@ public class JsonResource {
 
 	Long id;
 	String name;
+	boolean system;
 	
 	public Long getId() {
 		return id;
@@ -39,6 +40,12 @@ public class JsonResource {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public boolean isSystem() {
+		return system;
+	}
+	public void setSystem(boolean system) {
+		this.system = system;
 	}
 	
 	
