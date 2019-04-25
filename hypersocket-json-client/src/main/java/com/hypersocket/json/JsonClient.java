@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hypersocket.json.input.InputField;
 import com.hypersocket.json.utils.HypersocketUtils;
 import com.hypersocket.json.version.ServerInfo;
 
@@ -186,6 +187,38 @@ public class JsonClient {
 		} else {
 			throw new IOException("Authentication failed");
 		}
+	}
+	
+	public AuthenticationResult logon(Map<String,String> params) throws IOException, JsonStatusException {
+		List<RequestParameter> ps = new ArrayList<RequestParameter>();
+		
+		for(String key : params.keySet()) {
+			ps.add(new RequestParameter(key, params.get(key)));
+		}
+		
+		String logonJson = doPost(String.format("api/logon/%s", scheme), ps.toArray(new RequestParameter[0]));
+
+		debugJSON(logonJson);
+
+		AuthenticationResult logonResult = mapper.readValue(logonJson,
+				AuthenticationResult.class);
+		if (logonResult.getSuccess()) {
+			JsonLogonResult logon = mapper.readValue(logonJson,
+					JsonLogonResult.class);
+			session = logon.getSession();
+			return logonResult;
+		} else {
+			return mapper.readValue(logonJson, JsonFormTemplate.class);
+		}
+	}
+	
+	public AuthenticationResult logon() throws IOException, JsonStatusException {
+		
+		String logonJson = doPost(String.format("api/logon/%s", scheme));
+
+		debugJSON(logonJson);
+
+		return mapper.readValue(logonJson, JsonFormTemplate.class);
 	}
 
 	public boolean isLoggedOn() throws IOException {

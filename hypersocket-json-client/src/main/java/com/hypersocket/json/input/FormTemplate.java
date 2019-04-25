@@ -38,6 +38,9 @@ public class FormTemplate {
 	protected String logonButtonIcon = null;
 	protected String formClass = null;
 	
+	public FormTemplate() {
+	}
+	
 	public FormTemplate(String scheme) {
 		this.scheme = scheme;
 	}
