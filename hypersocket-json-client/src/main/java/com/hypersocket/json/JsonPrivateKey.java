@@ -29,6 +29,8 @@ public class JsonPrivateKey extends JsonAssignableResource {
 	String publicKey;
 	String type;
 	String fingerprint;
+	String keyType;
+	
 	public String getPrivateKey() {
 		return privateKey;
 	}
@@ -52,6 +54,12 @@ public class JsonPrivateKey extends JsonAssignableResource {
 	}
 	public void setFingerprint(String fingerprint) {
 		this.fingerprint = fingerprint;
+	}
+	public String getKeyType() {
+		return keyType;
+	}
+	public void setKeyType(String keyType) {
+		this.keyType = keyType;
 	}
 	
 	
