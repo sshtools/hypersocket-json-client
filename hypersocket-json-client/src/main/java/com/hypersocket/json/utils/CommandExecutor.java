@@ -25,12 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class CommandExecutor {
-
-	static Logger log = LoggerFactory.getLogger(CommandExecutor.class);
 	
 	ProcessBuilder pb;
 	List<String> args = new ArrayList<String>();
@@ -63,15 +58,6 @@ public class CommandExecutor {
 	
 	public int execute() throws IOException {
 		
-		if(log.isInfoEnabled()) {
-			StringBuilder builder = new StringBuilder();
-			for(String s : args) {
-				builder.append(s);
-				builder.append(' ');
-			}
-			
-			log.info("Executing command: " + builder.toString().trim());
-		}
 		pb = new ProcessBuilder(args);
 		
 		if(pwd!=null) {
@@ -93,10 +79,6 @@ public class CommandExecutor {
 			exitCode = p.waitFor();
 		} catch (InterruptedException e) {
 			throw new IOException(e.getMessage(), e);
-		}
-		
-		if (log.isDebugEnabled()) {
-			log.debug("Command output: " + buffer.toString());
 		}
 		
 		return exitCode;

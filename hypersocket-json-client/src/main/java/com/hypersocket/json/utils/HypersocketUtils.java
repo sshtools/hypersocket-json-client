@@ -52,8 +52,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -64,8 +62,6 @@ public class HypersocketUtils {
 	public static final int ONE_MINUTE = 60000;
 	public static final int ONE_HOUR = ONE_MINUTE * 60;
 	public static final int ONE_DAY = ONE_HOUR * 24;
-
-	static Logger log = LoggerFactory.getLogger(HypersocketUtils.class);
 
 	static ThreadLocal<Long> times = new ThreadLocal<Long>();
 
@@ -79,9 +75,6 @@ public class HypersocketUtils {
 	}
 
 	public static void logInterval(String msg) {
-
-		log.info("REMOVE ME: " + msg + ": "
-				+ (System.currentTimeMillis() - times.get()));
 		resetInterval();
 	}
 

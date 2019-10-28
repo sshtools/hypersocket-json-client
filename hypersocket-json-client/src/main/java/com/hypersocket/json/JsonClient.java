@@ -38,9 +38,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,8 +56,6 @@ import okhttp3.Response;
 
 
 public class JsonClient {
-
-	static Logger log = LoggerFactory.getLogger(JsonClient.class);
 	
 	protected ObjectMapper mapper = new ObjectMapper();
 	protected JsonSession session;
@@ -85,17 +80,9 @@ public class JsonClient {
 		
 		try {
 			
-			if(log.isInfoEnabled()) {
-				log.info("Discovering server path configuration");
-			}
-			
 			String json = doGet("/discover");
 			this.info = mapper.readValue(json, ServerInfo.class);
 			this.path = info.getBasePath();
-			
-			if(log.isInfoEnabled()) {
-				log.info(String.format("Server application path is %s", this.path));
-			}
 			
 		} catch (JsonStatusException e) {
 			throw new IOException(e.getMessage(), e);
@@ -245,7 +232,6 @@ public class JsonClient {
 			Object obj = mapper.readValue(json, Object.class);
 			String ret = mapper.writerWithDefaultPrettyPrinter()
 					.writeValueAsString(obj);
-			log.info(ret);
 			return ret;
 		}
 		return json;
