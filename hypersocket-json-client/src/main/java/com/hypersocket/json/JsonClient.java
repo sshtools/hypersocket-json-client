@@ -65,19 +65,25 @@ public class JsonClient {
 	boolean allowSelfSigned = false;
 	String hostname;
 	int port;
-	String path;
+	String path = null;
 	String scheme = "basic";
 	CookieJar cookies = null;
 	ServerInfo info;
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	
 	public JsonClient(String hostname, int port, boolean allowSelfSigned) throws IOException {
+		this(hostname, port, allowSelfSigned, true);
+	}
+	
+	public JsonClient(String hostname, int port, boolean allowSelfSigned, boolean discover) throws IOException {
 		this.hostname = hostname;
 		this.port = port;
-		this.path = "";
 		
 		setAllowSelfSignedCertificates(allowSelfSigned);
 		
+		if(!discover) {
+			return;
+		}
 		try {
 			
 			String json = doGet("/discover");
@@ -263,8 +269,12 @@ public class JsonClient {
 			buf.append(port);
 		}
 		if(!uri.startsWith("/")) {
-			buf.append(path);
-			if(!path.endsWith("/")) {
+			if(path!=null) {
+				buf.append(path);
+				if(!path.endsWith("/")) {
+					buf.append("/");
+				}
+			} else {
 				buf.append("/");
 			}
 			buf.append(uri);
