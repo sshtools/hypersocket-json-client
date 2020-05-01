@@ -58,9 +58,9 @@ import okhttp3.Response;
 public class JsonClient {
 	
 	protected ObjectMapper mapper = new ObjectMapper();
-	protected JsonSession session;
 	
-	private OkHttpClient client = null;
+	Map<String,String> permanentHeaders = new HashMap<>();
+	OkHttpClient client = null;
 	boolean debug = false;
 	boolean allowSelfSigned = false;
 	String hostname;
@@ -70,6 +70,8 @@ public class JsonClient {
 	CookieJar cookies = null;
 	ServerInfo info;
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+	
+	public static final String HYPERSOCKET_CSRF_TOKEN = "HYPERSOCKET_CSRF_TOKEN";
 	
 	public JsonClient(String hostname, int port, boolean allowSelfSigned) throws IOException {
 		this(hostname, port, allowSelfSigned, true);
@@ -95,8 +97,20 @@ public class JsonClient {
 		}
 	}
 	
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
 	public String getVersion() {
 		return info.getVersion();
+	}
+	
+	public void setPermanentHeader(String name, String value) {
+		permanentHeaders.put(name,  value);
+	}
+	
+	public void removePermanentHeader(String name) {
+		permanentHeaders.remove(name);
 	}
 	
 	protected OkHttpClient getClient() throws NoSuchAlgorithmException, KeyManagementException {
@@ -175,7 +189,8 @@ public class JsonClient {
 		if (logonResult.getSuccess()) {
 			JsonLogonResult logon = mapper.readValue(logonJson,
 					JsonLogonResult.class);
-			session = logon.getSession();
+			JsonSession session = logon.getSession();
+			setPermanentHeader("X-Csrf-Token", session.getCsrfToken());
 		} else {
 			throw new IOException("Authentication failed");
 		}
@@ -197,7 +212,8 @@ public class JsonClient {
 		if (logonResult.getSuccess()) {
 			JsonLogonResult logon = mapper.readValue(logonJson,
 					JsonLogonResult.class);
-			session = logon.getSession();
+			JsonSession session = logon.getSession();
+			setPermanentHeader("X-Csrf-Token", session.getCsrfToken());
 			return logonResult;
 		} else {
 			return mapper.readValue(logonJson, JsonFormTemplate.class);
@@ -247,7 +263,7 @@ public class JsonClient {
 			JsonMappingException, JsonStatusException, IOException, URISyntaxException {
 
 		doGet("api/logoff");
-		session = null;
+		removePermanentHeader("X-Csrf-Token");
 	}
 
 	public <T> T doPost(String url, Class<T> clz, RequestParameter... postVariables)
@@ -287,19 +303,8 @@ public class JsonClient {
 	
 	public String doPost(String url, RequestParameter... postVariables)
 			throws IOException, JsonStatusException {
-
-		url = HypersocketUtils.encodeURIPath(url);
-		
-		FormBody.Builder builder = new FormBody.Builder();
-		for(RequestParameter param : postVariables) {
-			builder.add(param.getName(), param.getValue());
-		}
-		        
-		Request request = new Request.Builder()
-		        .url(buildUrl(url))
-		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())
-		        .post(builder.build())
-		        .build();
+    
+		Request request = generatePOSTRequest(url, postVariables);
 		
 		try(Response response = getClient().newCall(request).execute()) {
 			
@@ -312,23 +317,85 @@ public class JsonClient {
 			throw new IOException(e.getMessage(), e);
 		} 
 	}
+	
+	
+	private Request generateJsonPOSTRequest(String url, String json) {
+		
+		url = HypersocketUtils.encodeURIPath(url);
+		
+		RequestBody body = RequestBody.create(JSON, json);
+		
+		Request.Builder request = new Request.Builder()
+        .url(buildUrl(url))
+        .post(body);
+        
+		for(String name : permanentHeaders.keySet()) {
+			request.addHeader(name, permanentHeaders.get(name));
+		}
+		
+		return request.build();
+	}
+
+	private Request generatePOSTRequest(String url, RequestParameter... postVariables) {
+		
+		url = HypersocketUtils.encodeURIPath(url);
+		
+		FormBody.Builder builder = new FormBody.Builder();
+		for(RequestParameter param : postVariables) {
+			builder.add(param.getName(), param.getValue());
+		}
+		
+		Request.Builder request = new Request.Builder()
+        .url(buildUrl(url))
+        .post(builder.build());
+        
+		for(String name : permanentHeaders.keySet()) {
+			request.addHeader(name, permanentHeaders.get(name));
+		}
+		
+		return request.build();
+	}
+	
+	private Request generateGETRequest(String url) {
+		
+		url = HypersocketUtils.encodeURIPath(url);
+		
+		Request.Builder request = new Request.Builder()
+        .url(buildUrl(url))
+        .get();
+        
+		for(String name : permanentHeaders.keySet()) {
+			request.addHeader(name, permanentHeaders.get(name));
+		}
+		
+		return request.build();
+	}
+	
+	private Request generateDELETERequest(String url) {
+		
+		url = HypersocketUtils.encodeURIPath(url);
+		
+		Request.Builder request = new Request.Builder()
+        .url(buildUrl(url))
+        .delete();
+        
+		for(String name : permanentHeaders.keySet()) {
+			request.addHeader(name, permanentHeaders.get(name));
+		}
+		
+		return request.build();
+	}
 
 	public String doGet(String url) throws
 			IOException, JsonStatusException {
 
-		url = HypersocketUtils.encodeURIPath(url);
-
-		Request request = new Request.Builder()
-		        .url(buildUrl(url))
-		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())
-		        .get()
-		        .build();
+		Request request = generateGETRequest(url);
 		
 		try(Response response = getClient().newCall(request).execute()) {
 			if(response.code()!=200) {
 				throw new JsonStatusException(response.code());
 			}
-			
+
 			return response.body().string();
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 			throw new IOException(e.getMessage(), e);
@@ -347,19 +414,8 @@ public class JsonClient {
 	
 	public String doDelete(String url, RequestParameter... postVariables)
 			throws IOException, JsonStatusException {
-
-		url = HypersocketUtils.encodeURIPath(url);
 		
-		FormBody.Builder builder = new FormBody.Builder();
-		for(RequestParameter param : postVariables) {
-			builder.add(param.getName(), param.getValue());
-		}
-		
-		Request request = new Request.Builder()
-		        .url(buildUrl(url))
-		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())
-		        .delete(builder.build())
-		        .build();
+		Request request = generateDELETERequest(url);
 		
 		try(Response response = getClient().newCall(request).execute()) {
 
@@ -434,15 +490,7 @@ public class JsonClient {
 	public String doPost(String url, String json)
 			throws URISyntaxException, JsonStatusException, IOException {
 
-		url = HypersocketUtils.encodeURIPath(url);
-		
-		RequestBody body = RequestBody.create(JSON, json);
-		
-		Request request = new Request.Builder()
-		        .url(buildUrl(url))
-		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())
-		        .post(body)
-		        .build();
+		Request request = generateJsonPOSTRequest(url, json);
 		
 		try(Response response = getClient().newCall(request).execute()) {
 			
@@ -460,16 +508,9 @@ public class JsonClient {
 	public String doPostJson(String url, Object jsonObject)
 			throws URISyntaxException, IllegalStateException, IOException, JsonStatusException {
 
-
-		url = HypersocketUtils.encodeURIPath(url);
-		
 		String json = mapper.writeValueAsString(jsonObject);
 
 		return doPost(url, json);
-	}
-
-	public JsonSession getSession() {
-		return session;
 	}
 
 	public ObjectMapper getMapper() {
@@ -478,13 +519,7 @@ public class JsonClient {
 
 	public InputStream doGetInputStream(String url) throws UnsupportedOperationException, IOException, JsonStatusException {
 
-		url = HypersocketUtils.encodeURIPath(url);
-		
-		Request request = new Request.Builder()
-		        .url(buildUrl(url))
-		        .addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken())
-		        .get()
-		        .build();
+		Request request = generateGETRequest(url);
 		
 		Response response = null;
 
