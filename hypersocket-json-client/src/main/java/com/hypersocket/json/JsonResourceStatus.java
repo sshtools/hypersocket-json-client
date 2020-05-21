@@ -29,7 +29,7 @@ public class JsonResourceStatus {
 	String message;
 	
 	JsonResource resource;
-	
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -52,6 +52,14 @@ public class JsonResourceStatus {
 
 	public void setResource(JsonResource resource) {
 		this.resource = resource;
+	}
+	
+	public JsonResource getResult() {
+		return resource;
+	}
+	
+	public void setResult(JsonResource result) {
+		this.resource=  result;
 	}
 	
 }
