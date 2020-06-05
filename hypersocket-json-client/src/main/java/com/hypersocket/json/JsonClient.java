@@ -371,13 +371,18 @@ public class JsonClient {
 		return request.build();
 	}
 	
-	private Request generateDELETERequest(String url) {
+	private Request generateDELETERequest(String url, RequestParameter... parameters) {
 		
 		url = HypersocketUtils.encodeURIPath(url);
 		
+		FormBody.Builder builder = new FormBody.Builder();
+		for(RequestParameter param : parameters) {
+			builder.add(param.getName(), param.getValue());
+		}
+		
 		Request.Builder request = new Request.Builder()
         .url(buildUrl(url))
-        .delete();
+        .delete(builder.build());
         
 		for(String name : permanentHeaders.keySet()) {
 			request.addHeader(name, permanentHeaders.get(name));
@@ -415,7 +420,7 @@ public class JsonClient {
 	public String doDelete(String url, RequestParameter... postVariables)
 			throws IOException, JsonStatusException {
 		
-		Request request = generateDELETERequest(url);
+		Request request = generateDELETERequest(url, postVariables);
 		
 		try(Response response = getClient().newCall(request).execute()) {
 
