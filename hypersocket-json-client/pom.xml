@@ -39,7 +39,7 @@
 	</licenses>
 	<scm>
 		<url>https://github.com/sshtools/hypersocket-json-client/</url>
-		<connection>https://github.com/sshtools/hypersocket-json-client.git</connection>
+		<connection>scm:git:https://github.com/sshtools/hypersocket-json-client.git</connection>
 	</scm>
 	<developers>
 		<developer>
