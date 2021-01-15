@@ -1,30 +1,13 @@
-/**
- * Copyright 2003-2020 JADAPTIVE Limited. All Rights Reserved.
- *
- * For product documentation visit https://www.jadaptive.com/
- *
- * This file is part of Hypersocket JSON Client.
- *
- * Hypersocket JSON Client is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Hypersocket JSON Client is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.hypersocket.jsonclient.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -32,17 +15,17 @@ import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -51,6 +34,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -63,18 +48,59 @@ public class HypersocketUtils {
 	public static final int ONE_HOUR = ONE_MINUTE * 60;
 	public static final int ONE_DAY = ONE_HOUR * 24;
 
-	static ThreadLocal<Long> times = new ThreadLocal<Long>();
+	static Logger log = System.getLogger(HypersocketUtils.class.getName());
 
-	static Map<String,SimpleDateFormat> dateFormats = new HashMap<String,SimpleDateFormat>();
+	private static ThreadLocal<Long> times = new ThreadLocal<Long>();
+
+	/* BUG: Date formatters are not thread safe. */
+	//static Map<String,SimpleDateFormat> dateFormats = new HashMap<String,SimpleDateFormat>();
+
+	private static SecureRandom random = new SecureRandom();
 	
-	static DecimalFormat df = new DecimalFormat("0.00");
-	static SecureRandom random = new SecureRandom();
+	public static Date calculateDateTime(String timezone, Date from, String time) {
+
+		Calendar c = Calendar.getInstance();
+		if(StringUtils.isBlank(timezone)) {
+			timezone = TimeZone.getDefault().getID();
+		}
+		
+		c.setTime(HypersocketUtils.today());
+		c.setTimeZone(TimeZone.getTimeZone(timezone));
+		
+		Date ret = null;
+
+		if (from != null) {
+			c.setTime(from);
+			ret = c.getTime();
+		}
+
+		
+		if (StringUtils.isEmpty(time)) {
+			return ret;
+		}
+				
+		int idx = time.indexOf(":");
+		if(idx==-1) {
+			log.log(Level.WARNING, "calculateDateTime has invalid time parameter {}", time);
+			return ret;
+		}
+		
+		c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.substring(0, idx)));
+		c.set(Calendar.MINUTE, Integer.parseInt(time.substring(idx + 1)));
+		ret = c.getTime();
+		
+
+		return ret;
+	}
 	
 	public static void resetInterval() {
 		times.set(System.currentTimeMillis());
 	}
 
 	public static void logInterval(String msg) {
+
+		log.log(Level.WARNING, "REMOVE ME: " + msg + ": "
+				+ (System.currentTimeMillis() - times.get()));
 		resetInterval();
 	}
 
@@ -114,20 +140,19 @@ public class HypersocketUtils {
 	 * @param format
 	 * @return
 	 */
-	public static String formatDate(Date date, String format) {
-		
-		if(!dateFormats.containsKey(format)) {
-			dateFormats.put(format, new SimpleDateFormat(format));
-		}
-		
+	public static String formatDate(Date date, String format) {		
 		if(date==null) {
 			return "";
 		}
 		
-		return dateFormats.get(format).format(date);
+		return new SimpleDateFormat(format).format(date);
 	}
 	
-	public static String formatDateTime(Long date) {
+	public static String formatDate(Date date) {
+		return formatDate(date, "MMM d, yyyy");
+	}
+	
+ 	public static String formatDateTime(Long date) {
 		return formatDateTime(new Date(date));
 	}
 	
@@ -139,6 +164,10 @@ public class HypersocketUtils {
 		return formatDate(date, "EEE, d MMM yyyy");
 	}
 	
+	public static String formatShortDate(long date) {
+		return formatShortDate(new Date(date));
+	}
+	
 	/**
 	 * Parse a date on a given format. 
 	 * @param date
@@ -147,14 +176,25 @@ public class HypersocketUtils {
 	 * @throws ParseException
 	 */
 	public static Date parseDate(String date, String format) throws ParseException {
+		
+		/* BUG: Date formatters are not thread safe */
+		
+		/*
 		if(!dateFormats.containsKey(format)) {
 			dateFormats.put(format, new SimpleDateFormat(format));
 		}
 		
 		return dateFormats.get(format).parse(date);
+		*/
+		
+		return new SimpleDateFormat(format).parse(date);
 	}
 	
 	public static Date today() {
+		return todayCalendar().getTime();
+	}
+	
+	public static Calendar todayCalendar() {
 		
 		Calendar date = Calendar.getInstance();
 		date.set(Calendar.HOUR_OF_DAY, 0);
@@ -162,7 +202,7 @@ public class HypersocketUtils {
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
 		
-		return date.getTime();
+		return date;
 	}
 	
 	public static Date tomorrow() {
@@ -196,13 +236,18 @@ public class HypersocketUtils {
 	 * @return
 	 */
 	public static String stripPort(String hostHeader) {
-		int idx = hostHeader.indexOf(':');
-		if(idx > -1) {
-			return hostHeader.substring(0, idx);
-		}
-		return hostHeader;
+		return before(hostHeader, ":");
 	}
 
+	public static String after(String value, String string) {
+		int idx = value.indexOf(string);
+		if(idx > -1) {
+			return value.substring(idx+string.length());
+		}
+		return "";
+	}
+	
+	
 	public static String before(String value, String string) {
 		int idx = value.indexOf(string);
 		if(idx > -1) {
@@ -212,7 +257,11 @@ public class HypersocketUtils {
 	}
 	
 	public static String base64Encode(byte[] bytes) {
-		return Base64.getEncoder().encodeToString(bytes);
+		try {
+			return new String(Base64.encodeBase64(bytes, false, true), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException("System does not support UTF-8 encoding!");
+		}
 	}
 	
 	public static String base64Encode(String resourceKey) {
@@ -224,7 +273,11 @@ public class HypersocketUtils {
 	}
 
 	public static byte[] base64Decode(String property) throws IOException {
-		return Base64.getDecoder().decode(property);
+		return Base64.decodeBase64(property.getBytes("UTF-8"));
+	}
+	
+	public static String base64DecodeToString(String value) throws IOException {
+		return new String(base64Decode(value), "UTF-8");
 	}
 	
 	public static boolean isValidJSON(final String json) {
@@ -243,11 +296,18 @@ public class HypersocketUtils {
 		}
 
 	public static String format(Double d) {
-		return df.format(d);
+		return new DecimalFormat("0.00").format(d);
 	}
 	
 	public static String format(Float f) {
-		return df.format(f);
+		return new DecimalFormat("0.00").format(f);
+	}
+	
+	public static String prettyPrintXml(SOAPMessage message) throws SOAPException, IOException, TransformerFactoryConfigurationError, TransformerException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		message.writeTo(out);
+		
+		return prettyPrintXml(out.toString("UTF-8"));
 	}
 	
 	public static String prettyPrintXml(String unformattedXml) throws TransformerFactoryConfigurationError, UnsupportedEncodingException, TransformerException {
@@ -282,6 +342,13 @@ public class HypersocketUtils {
 		} catch (UnsupportedEncodingException e) {
 			throw new IllegalStateException("System does not appear to support UTF-8!", e);
 		}
+	}
+	
+	public static String[] urlDecodeAll(String... message) {
+		String[] a = new String[message.length];
+		for(int i = 0 ; i < a.length ; i++)
+			a[i] = urlDecode(message[i]);
+		return a;
 	}
 	
 	public static String urlDecode(String message) {
@@ -400,7 +467,80 @@ public class HypersocketUtils {
 	}
 
 	public static Date convertToUTC(Date date, TimeZone tz) {
-		return new Date(date.getTime() + tz.getOffset(date.getTime()));
+		Calendar c = Calendar.getInstance();
+		long serverOffset = -c.getTimeZone().getOffset(date.getTime());
+		long clientOffset = tz.getOffset(date.getTime());
+		long utc  = date.getTime() - serverOffset;
+		return new Date(utc - clientOffset);
+	}
+
+	public static String stripHostname(String uri) {
+		return after(uri, ":");
+	}
+
+	public static String getBaseURL(String url) {
+		String protocol = before(url, "//");
+		String tmp = after(url, "//");
+		
+		return protocol + "//" + before(tmp, "/");
+	}
+	
+	public static void memDbg(String ctx) {
+		if("true".equalsIgnoreCase(System.getProperty("hypersocket.memDbg", "false")))
+			System.out.println(String.format("Total: %6d MiB   Free: %6d   Used: %6d   Max: %6d    Ctx: %s",
+					Runtime.getRuntime().totalMemory() / 1024 / 1024, Runtime.getRuntime().freeMemory() / 1024 / 1024,
+					(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024,
+					Runtime.getRuntime().maxMemory() / 1024 / 1024, ctx));
+		
+	}
+
+	public static Date oneWeek() {
+		return fromToday(7);
+	}
+	
+	public static Date oneMonth() {
+		return fromToday(30);
+	}
+	
+	public static Date oneYear() {
+		return fromToday(365);
+	}
+	
+	public static Date fromToday(int days) {
+		Calendar c = todayCalendar();
+		c.add(Calendar.DAY_OF_MONTH, days);
+		return c.getTime();
+	}
+
+	@SafeVarargs
+	public static <T> boolean in(T element, T... values) {
+		for(T value : values) {
+			if(value.equals(element)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@SafeVarargs
+	public static <T> boolean notIn(T element, T... values) {
+		for(T value : values) {
+			if(value.equals(element)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static String[] toStringArray(Object[] args) {
+		String[] a = new String[args.length];
+		for(int i = 0 ; i < args.length; i++)
+			a[i] = args[i] == null ? null : String.valueOf(args[i]);
+		return a;
+	}
+
+	public static boolean isEmailAddress(String email) {
+		return Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email).matches();
 	}
 
 }

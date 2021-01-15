@@ -31,4 +31,6 @@ module com.hypersocket.jsonclient {
 	requires transitive java.prefs;
 	requires org.apache.commons.lang3;
 	requires java.xml.bind;
+	requires transitive org.apache.commons.codec;
+	requires transitive java.xml.soap;
 }
