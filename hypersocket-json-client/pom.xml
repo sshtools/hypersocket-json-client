@@ -1,26 +1,16 @@
-<!--
-
-    Copyright 2003-2016 SSHTOOLS Limited. All Rights Reserved.
-
-    For product documentation visit https://www.sshtools.com/
-
-    This file is part of Hypersocket JSON Client.
-
-    Hypersocket JSON Client is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Hypersocket JSON Client is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
-
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<!-- Copyright 2003-2016 SSHTOOLS Limited. All Rights Reserved. For product 
+	documentation visit https://www.sshtools.com/ This file is part of Hypersocket 
+	JSON Client. Hypersocket JSON Client is free software: you can redistribute 
+	it and/or modify it under the terms of the GNU Lesser General Public License 
+	as published by the Free Software Foundation, either version 3 of the License, 
+	or (at your option) any later version. Hypersocket JSON Client is distributed 
+	in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+	the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+	See the GNU General Public License for more details. You should have received 
+	a copy of the GNU Lesser General Public License along with Hypersocket JSON 
+	Client. If not, see <http://www.gnu.org/licenses/>. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sshtools</groupId>
@@ -29,7 +19,7 @@
 	<name>Hypersocket JSON Client</name>
 	<description>Implements a Java JSON client that can be used with to communicate with a Hypersocket Framework server</description>
 	<url>https://github.com/sshtools/hypersocket-json-client</url>
-	
+
 	<licenses>
 		<license>
 			<name>GNU General Public License</name>
@@ -63,7 +53,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-		    <version>2.12.1</version>
+			<version>2.12.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -97,7 +87,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>11</source>
 					<target>11</target>
@@ -106,7 +96,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -118,7 +108,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<id>javadoc-jar</id>
@@ -127,12 +117,11 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
-							<!-- switch on dependency-driven aggregation -->
-							<includeDependencySources>false</includeDependencySources>
-							<dependencySourceIncludes>
-								<!-- include ONLY dependencies I control -->
-								<dependencySourceInclude>com.sshtools:*</dependencySourceInclude>
-							</dependencySourceIncludes>
+							<encoding>UTF-8</encoding>
+							<excludePackageNames>**.impl.*</excludePackageNames>
+							<detectJavaApiLink>false</detectJavaApiLink>
+							<!-- https://bugs.openjdk.java.net/browse/JDK-8212233 -->
+							<source>8</source>
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
 					</execution>
@@ -141,7 +130,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
+				<version>1.6</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
