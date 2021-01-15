@@ -1,7 +1,7 @@
 /**
- * Copyright 2003-2016 SSHTOOLS Limited. All Rights Reserved.
+ * Copyright 2003-2020 JADAPTIVE Limited. All Rights Reserved.
  *
- * For product documentation visit https://www.sshtools.com/
+ * For product documentation visit https://www.jadaptive.com/
  *
  * This file is part of Hypersocket JSON Client.
  *
