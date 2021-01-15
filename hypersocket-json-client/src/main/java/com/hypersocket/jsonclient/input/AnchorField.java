@@ -22,7 +22,7 @@ package com.hypersocket.jsonclient.input;
 
 public class AnchorField extends InputField {
 
-	boolean isLogonApiLink = true;
+	private boolean isLogonApiLink = true;
 
 	public AnchorField() {
 	}

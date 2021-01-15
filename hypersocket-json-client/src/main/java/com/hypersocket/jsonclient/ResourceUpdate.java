@@ -21,7 +21,6 @@
 package com.hypersocket.jsonclient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hypersocket.jsonclient.PropertyItem;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ResourceUpdate {

@@ -20,8 +20,6 @@
  */
 package com.hypersocket.jsonclient;
 
-import com.hypersocket.jsonclient.ResourceStatus;
-
 public class ResourceStatusConfirmation<T> extends ResourceStatus<T> {
 
 	boolean confirmation = false;

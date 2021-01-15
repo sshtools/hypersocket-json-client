@@ -22,7 +22,7 @@ package com.hypersocket.jsonclient.input;
 
 public class PreField extends InputField {
 
-	boolean isValueResourceKey;
+	private boolean isValueResourceKey;
 	
 	public PreField(String defaultValue, boolean isValueResourceKey) {
 		super(InputFieldType.pre, "preField", defaultValue, false, "");

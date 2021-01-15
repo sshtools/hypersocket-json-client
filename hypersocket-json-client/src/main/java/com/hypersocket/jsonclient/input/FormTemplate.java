@@ -37,9 +37,7 @@ public class FormTemplate {
 	protected String logonButtonResourceKey = null;
 	protected String logonButtonIcon = null;
 	protected String formClass = null;
-	
-	public FormTemplate() {
-	}
+	protected Boolean startAuthentication = Boolean.FALSE;
 	
 	public FormTemplate(String scheme) {
 		this.scheme = scheme;
@@ -111,6 +109,14 @@ public class FormTemplate {
 	
 	public boolean isOverrideStartAgain() {
 		return overrideStartAgain;
+	}
+
+	public Boolean getStartAuthentication() {
+		return startAuthentication;
+	}
+
+	public void setStartAuthentication(Boolean startAuthentication) {
+		this.startAuthentication = startAuthentication;
 	}
 
 }
