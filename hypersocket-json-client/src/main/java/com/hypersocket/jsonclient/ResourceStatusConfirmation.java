@@ -22,14 +22,14 @@ package com.hypersocket.jsonclient;
 
 public class ResourceStatusConfirmation<T> extends ResourceStatus<T> {
 
-	boolean confirmation = false;
-	String[] options;
-	Object[] args;
+	private boolean confirmation = false;
+	private String[] options;
+	private Object[] args;
 
 	public ResourceStatusConfirmation(String message, String[] options, Object[] args) {
-		this.success = false;
+		setSuccess(true);
+		setMessage(message);
 		this.confirmation = true;
-		this.message = message;
 		this.options = options;
 		this.args = args;
 	}
