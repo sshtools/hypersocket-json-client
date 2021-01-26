@@ -20,12 +20,14 @@
  */
 package com.hypersocket.json;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class JsonResourceList<T extends JsonResource> {
+public class JsonResourceList<T extends JsonResource> implements Serializable {
 
 	boolean success;
 	String error;

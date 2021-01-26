@@ -20,10 +20,13 @@
  */
 package com.hypersocket.json;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class JsonResource {
+public class JsonResource implements Serializable {
 
 	Long id;
 	String name;
