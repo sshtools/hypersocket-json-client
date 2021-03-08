@@ -27,8 +27,8 @@ public class AuthenticationRedirectResult extends AuthenticationResult {
 	public AuthenticationRedirectResult() {
 	}
 
-	public AuthenticationRedirectResult(String bannerMsg, String errorMsg, boolean showLocales, String location) {
-		super(bannerMsg, errorMsg, showLocales);
+	public AuthenticationRedirectResult(String bannerMsg, String errorMsg, String errorStyle, boolean showLocales, String location) {
+		super(bannerMsg, errorMsg, errorStyle, showLocales);
 		this.location = location;
 	}
 
