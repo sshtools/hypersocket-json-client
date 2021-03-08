@@ -28,6 +28,7 @@ public class AuthenticationResult {
 
 	protected String bannerMsg;
 	protected String errorMsg;
+	protected String errorStyle;
 	protected boolean showLocales;
 	protected boolean success;
 	protected String version = HypersocketVersion.getVersion();
@@ -36,9 +37,10 @@ public class AuthenticationResult {
 	public AuthenticationResult() {	
 	}
 	
-	public AuthenticationResult(String bannerMsg, String errorMsg, boolean showLocales) {
+	public AuthenticationResult(String bannerMsg, String errorMsg, String errorStyle, boolean showLocales) {
 		this.bannerMsg = bannerMsg;
 		this.errorMsg = errorMsg;
+		this.errorStyle = errorStyle;
 		this.showLocales = showLocales;
 	}
 
@@ -56,6 +58,14 @@ public class AuthenticationResult {
 
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
+	}
+
+	public String getErrorStyle() {
+		return errorStyle;
+	}
+
+	public void setErrorStyle(String errorStyle) {
+		this.errorStyle = errorStyle;
 	}
 
 	public String getVersion() {
