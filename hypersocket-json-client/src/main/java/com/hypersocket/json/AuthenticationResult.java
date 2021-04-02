@@ -31,7 +31,7 @@ public class AuthenticationResult {
 	protected String errorStyle;
 	protected boolean showLocales;
 	protected boolean success;
-	protected String version = HypersocketVersion.getVersion();
+	protected String version = HypersocketVersion.getVersion("hypersocket-json-client");
 	protected JsonResource principal;
 	
 	public AuthenticationResult() {	
