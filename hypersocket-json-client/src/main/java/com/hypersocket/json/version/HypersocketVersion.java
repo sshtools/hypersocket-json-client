@@ -48,7 +48,7 @@ public class HypersocketVersion {
 		return serial;
 	}
 	
-	public static String getVersion(String artifactId) {
+	public static String getVersion(String artifactCoordinate) {
 		String fakeVersion = System.getProperty("hypersocket.development.version");
 		if(fakeVersion != null) {
 			return fakeVersion;
@@ -61,7 +61,7 @@ public class HypersocketVersion {
 	    // try to load from maven properties first
 	    try {
 	        Properties p = new Properties();
-	        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("/META-INF/maven/com.hypersocket/" + artifactId + "/pom.properties");
+	        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("META-INF/maven/" + artifactCoordinate + "/pom.properties");
 	        if (is != null) {
 	            p.load(is);
 	            version = p.getProperty("version", "");
