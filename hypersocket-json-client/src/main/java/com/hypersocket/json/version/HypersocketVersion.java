@@ -59,9 +59,8 @@ public class HypersocketVersion {
 	    }
 
 	    // try to load from maven properties first
-	    try {
+	    try(InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("META-INF/maven/" + artifactCoordinate + "/pom.properties")) {
 	        Properties p = new Properties();
-	        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("META-INF/maven/" + artifactCoordinate + "/pom.properties");
 	        if (is != null) {
 	            p.load(is);
 	            version = p.getProperty("version", "");
