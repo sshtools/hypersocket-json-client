@@ -21,6 +21,7 @@
 package com.hypersocket.json.version;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.UUID;
@@ -35,13 +36,6 @@ public class HypersocketVersion {
 
 	static String version;
 	
-	public static String getVersion() {
-		if(Boolean.getBoolean("hypersocket.development")) {
-			return System.getProperty("hypersocket.devVersion", getVersion("hypersocket-framework"));
-		}
-		return getVersion("hypersocket-framework");
-	}
-	
 	public static String getSerial() {
 		Preferences pref = Preferences.userNodeForPackage(HypersocketVersion.class);
 		
@@ -55,7 +49,7 @@ public class HypersocketVersion {
 		return serial;
 	}
 	
-	public static String getVersion(String artifactId) {
+	public static String getVersion(String artifactCoordinate) {
 		String fakeVersion = System.getProperty("hypersocket.development.version");
 		if(fakeVersion != null) {
 			return fakeVersion;
@@ -66,16 +60,45 @@ public class HypersocketVersion {
 	    }
 
 	    // try to load from maven properties first
-	    try {
-	        Properties p = new Properties();
-	        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("/META-INF/maven/com.hypersocket/" + artifactId + "/pom.properties");
-	        if (is != null) {
-	            p.load(is);
-	            version = p.getProperty("version", "");
-	        }
-	    } catch (Exception e) {
-	        // ignore
-	    }
+
+		InputStream is = HypersocketVersion.class.getResourceAsStream("/META-INF/maven/" + artifactCoordinate + "/pom.properties");
+		if(is != null) {
+			try {
+		        Properties p = new Properties();
+		        if (is != null) {
+		            p.load(is);
+		            version = p.getProperty("version", "");
+		        }
+		    } catch (Exception e) {
+		        // ignore
+		    }
+			finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+
+		if(version == null) {
+		    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		    if(cl != null) {
+		    	is = cl.getResourceAsStream("META-INF/maven/" + artifactCoordinate + "/pom.properties");
+		    	if(is != null) {
+					try {
+				        Properties p = new Properties();
+			            p.load(is);
+			            version = p.getProperty("version", "");
+				    } catch (Exception e) {
+				        // ignore
+				    }
+					try {
+						is.close();
+					} catch (IOException e) {
+					}
+		    	}
+		    }
+		}
 
 	    // fallback to using Java API
 	    if (version == null) {
