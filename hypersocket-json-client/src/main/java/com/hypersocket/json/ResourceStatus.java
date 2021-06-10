@@ -57,6 +57,30 @@ public class ResourceStatus<T> {
 		this(success, null);
 	}
 
+	public boolean isConfirmation() {
+		return confirmation;
+	}
+
+	public void setConfirmation(boolean confirmation) {
+		this.confirmation = confirmation;
+	}
+
+	public String[] getOptions() {
+		return options;
+	}
+
+	public void setOptions(String[] options) {
+		this.options = options;
+	}
+
+	public Object[] getArgs() {
+		return args;
+	}
+
+	public void setArgs(Object[] args) {
+		this.args = args;
+	}
+
 	public boolean isSuccess() {
 		return success;
 	}
