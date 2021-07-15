@@ -20,27 +20,21 @@
  */
 package com.hypersocket.json;
 
-public class ResourceStatusConfirmation<T> extends ResourceStatus<T> {
+public class ResourceStatusRedirect<T> extends ResourceStatus<T> {
 
-	private String[] options;
-	private Object[] args;
+	private boolean redirect = false;
 
-	public ResourceStatusConfirmation(String message, String[] options, Object[] args) {
+	public ResourceStatusRedirect(String message) {
 		setSuccess(false);
 		setMessage(message);
-		this.options = options;
-		this.args = args;
-		setConfirmation(true);
+		setRedirect(true);
 	}
 	
-	public String[] getOptions() {
-		return options;
+	public boolean isRedirect() {
+		return redirect;
 	}
-	
-	public Object[] getArgs() {
-		return args;
-	}
-	
-	
 
+	public void setRedirect(boolean redirect) {
+		this.redirect = redirect;
+	}
 }

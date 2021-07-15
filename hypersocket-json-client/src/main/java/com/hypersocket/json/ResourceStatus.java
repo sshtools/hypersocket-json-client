@@ -22,12 +22,12 @@ package com.hypersocket.json;
 
 public class ResourceStatus<T> {
 
-	boolean success = true;
-	String message = "";
-	T resource;
-	boolean confirmation = false;
-	String[] options;
-	Object[] args;
+	private boolean success = true;
+	private String message = "";
+	private T resource;
+	private boolean confirmation = false;
+	private String[] options;
+	private Object[] args;
 	
 	public ResourceStatus() {
 		super();
