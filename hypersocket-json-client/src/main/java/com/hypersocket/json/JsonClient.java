@@ -69,6 +69,7 @@ public class JsonClient {
 	String scheme = "basic";
 	CookieJar cookies = null;
 	ServerInfo info;
+	
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	
 	public static final String HYPERSOCKET_CSRF_TOKEN = "HYPERSOCKET_CSRF_TOKEN";
