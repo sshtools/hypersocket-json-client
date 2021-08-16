@@ -23,6 +23,9 @@ package com.hypersocket.json.version;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.prefs.Preferences;
@@ -34,7 +37,7 @@ import org.w3c.dom.Document;
 
 public class HypersocketVersion {
 
-	static String version;
+	static Map<String,String> versions = Collections.synchronizedMap(new HashMap<>());
 	
 	public static String getSerial() {
 		Preferences pref = Preferences.userNodeForPackage(HypersocketVersion.class);
@@ -55,9 +58,9 @@ public class HypersocketVersion {
 			return fakeVersion;
 		}
 		
-	    if (version != null) {
-	        return version;
-	    }
+	    String version = versions.get(artifactCoordinate);
+	    if(version != null)
+	    	return version;
 
 	    // try to load from maven properties first
 
@@ -123,6 +126,7 @@ public class HypersocketVersion {
 	        
 	    }
 
+	    versions.put(artifactCoordinate, version);
 	    return version;
 	}
 
