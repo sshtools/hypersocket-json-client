@@ -23,8 +23,11 @@ package com.hypersocket.json.input;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class InputField {
 
 	InputFieldType type;
@@ -35,6 +38,7 @@ public class InputField {
 	List<Option> options = new ArrayList<Option>();
 	String infoKey;
 	String onChange;
+	boolean readOnly;
 	
 	public InputField() {
 
@@ -53,6 +57,14 @@ public class InputField {
 						 String defaultValue, boolean required, String label, String infoKey) {
 		this(type, resourceKey, defaultValue, required, label);
 		this.infoKey = infoKey;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 
 	public String getLabel() {

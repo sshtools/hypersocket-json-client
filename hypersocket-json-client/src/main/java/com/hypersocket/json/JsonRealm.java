@@ -20,6 +20,9 @@
  */
 package com.hypersocket.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown =  true)
 public class JsonRealm extends JsonResource {
 
 }
