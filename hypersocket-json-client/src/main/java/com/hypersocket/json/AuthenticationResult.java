@@ -33,6 +33,7 @@ public class AuthenticationResult {
 	protected boolean success;
 	protected String version = HypersocketVersion.getVersion("com.sshtools/hypersocket-json-client");
 	protected JsonResource principal;
+	protected boolean lastErrorIsResourceKey;
 	
 	public AuthenticationResult() {	
 	}
@@ -42,6 +43,14 @@ public class AuthenticationResult {
 		this.errorMsg = errorMsg;
 		this.errorStyle = errorStyle;
 		this.showLocales = showLocales;
+	}
+
+	public boolean isLastErrorIsResourceKey() {
+		return lastErrorIsResourceKey;
+	}
+
+	public void setLastErrorIsResourceKey(boolean lastErrorIsResourceKey) {
+		this.lastErrorIsResourceKey = lastErrorIsResourceKey;
 	}
 
 	public String getBannerMsg() {

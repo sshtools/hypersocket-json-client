@@ -27,7 +27,7 @@ public class JsonSession {
 
 	String id;
 	String csrfToken;
-//	JsonPrincipal currentPrincipal;
+	JsonPrincipal currentPrincipal;
 //	JsonResource currentRealm;
 
 	public String getId() {
@@ -38,13 +38,13 @@ public class JsonSession {
 		this.id = id;
 	}
 
-//	public JsonPrincipal getCurrentPrincipal() {
-//		return currentPrincipal;
-//	}
-//
-//	public void setPrincipal(JsonPrincipal currentPrincipal) {
-//		this.currentPrincipal = currentPrincipal;
-//	}
+	public JsonPrincipal getCurrentPrincipal() {
+		return currentPrincipal;
+	}
+
+	public void setPrincipal(JsonPrincipal currentPrincipal) {
+		this.currentPrincipal = currentPrincipal;
+	}
 //
 //	public JsonResource getCurrentRealm() {
 //		return currentRealm;
