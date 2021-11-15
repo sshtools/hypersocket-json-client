@@ -48,22 +48,26 @@
 			<email>lee@sshtools.com</email>
 		</developer>
 	</developers>
+	<properties>
+        <!-- Also in hypersocket.enterprise, hypersocket.framework and I4J -->
+        <jackson.version>2.10.5</jackson.version>
+    </properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.9.10</version>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.9.10</version>
+            <version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.10.1</version>
+            <version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
