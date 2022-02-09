@@ -22,6 +22,8 @@ package com.hypersocket.json;
 
 public class ResourceStatusRedirect<T> extends ResourceStatus<T> {
 
+	private static final long serialVersionUID = 1L;
+	
 	private boolean redirect = false;
 
 	public ResourceStatusRedirect(String message) {

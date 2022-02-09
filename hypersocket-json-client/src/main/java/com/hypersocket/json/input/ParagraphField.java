@@ -22,14 +22,33 @@ package com.hypersocket.json.input;
 
 public class ParagraphField extends InputField {
 
-	boolean isValueResourceKey;
+	private boolean isValueResourceKey;
+	private boolean isAlert;
+	private String alertType = "danger";
 	
 	public ParagraphField(String defaultValue, boolean isValueResourceKey) {
 		super(InputFieldType.p, "paragraphField", defaultValue, false, "");
 		this.isValueResourceKey = isValueResourceKey;
 	}
 	
+	public ParagraphField(String defaultValue, boolean isValueResourceKey, boolean isAlert, String alertType) {
+		super(InputFieldType.p, "paragraphField", defaultValue, false, "");
+		this.isValueResourceKey = isValueResourceKey;
+		this.isAlert = isAlert;
+		this.alertType = alertType;
+	}
+	
 	public boolean isValueResourceKey() {
 		return isValueResourceKey;
 	}
+
+	public boolean isAlert() {
+		return isAlert;
+	}
+
+	public String getAlertType() {
+		return alertType;
+	}
+	
+	
 }

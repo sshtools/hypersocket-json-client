@@ -21,5 +21,5 @@
 package com.hypersocket.json.input;
 
 public enum InputFieldType {
-	text, textarea, password, select, hidden, p, a, script, div, pre, img, checkbox, html;
+	text, textarea, password, select, hidden, p, a, script, div, pre, img, checkbox, html, radio, countries, header;
 }

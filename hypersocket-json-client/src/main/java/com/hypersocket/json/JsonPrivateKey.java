@@ -19,48 +19,59 @@
  * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.hypersocket.json;
+
 public class JsonPrivateKey extends JsonAssignableResource {
+
+	private static final long serialVersionUID = 1L;
 
 	public JsonPrivateKey() {
 
 	}
-	
-	String privateKey;
-	String publicKey;
-	String type;
-	String fingerprint;
-	String keyType;
-	
+
+	private String privateKey;
+	private String publicKey;
+	private String type;
+	private String fingerprint;
+	private String keyType;
+
 	public String getPrivateKey() {
 		return privateKey;
 	}
+
 	public void setPrivateKey(String privateKey) {
 		this.privateKey = privateKey;
 	}
+
 	public String getPublicKey() {
 		return publicKey;
 	}
+
 	public void setPublicKey(String publicKey) {
 		this.publicKey = publicKey;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public String getFingerprint() {
 		return fingerprint;
 	}
+
 	public void setFingerprint(String fingerprint) {
 		this.fingerprint = fingerprint;
 	}
+
 	public String getKeyType() {
 		return keyType;
 	}
+
 	public void setKeyType(String keyType) {
 		this.keyType = keyType;
 	}
-	
-	
+
 }

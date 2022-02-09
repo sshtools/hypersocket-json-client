@@ -22,10 +22,10 @@ package com.hypersocket.json;
 
 public class JsonAssignableResource extends JsonResource {
 
-	JsonRealm realm;
+	private static final long serialVersionUID = 1L;
+	private JsonRealm realm;
 
 	public JsonAssignableResource() {
-		
 	}
 	
 	public JsonRealm getRealm() {

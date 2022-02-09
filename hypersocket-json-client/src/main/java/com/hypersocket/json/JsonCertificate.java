@@ -21,17 +21,20 @@
 package com.hypersocket.json;
 
 public class JsonCertificate extends JsonResource {
-	String type;
-	String commonName;
-	String organizationalUnit;
-	String organization;
-	String location;
-	String state;
-	String country;
-	String certificate;
-	String bundle;
-	String signatureAlgorithm;
-	String certType;
+	
+	private static final long serialVersionUID = 1L;
+	
+	private String type;
+	private String commonName;
+	private String organizationalUnit;
+	private String organization;
+	private String location;
+	private String state;
+	private String country;
+	private String certificate;
+	private String bundle;
+	private String signatureAlgorithm;
+	private String certType;
 
 	public String getType() {
 		return type;

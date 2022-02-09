@@ -30,15 +30,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class InputField {
 
-	InputFieldType type;
-	String resourceKey;
-	String defaultValue;
-	boolean required;
-	String label;
-	List<Option> options = new ArrayList<Option>();
-	String infoKey;
-	String onChange;
-	boolean readOnly;
+	private InputFieldType type;
+	private String resourceKey;
+	private String defaultValue;
+	private boolean required;
+	private String label;
+	private List<Option> options = new ArrayList<Option>();
+	private String infoKey;
+	private String onChange;
+	private boolean readOnly;
+	private String classes;
+	private String help;
 	
 	public InputField() {
 
@@ -59,13 +61,6 @@ public class InputField {
 		this.infoKey = infoKey;
 	}
 
-	public boolean isReadOnly() {
-		return readOnly;
-	}
-
-	public void setReadOnly(boolean readOnly) {
-		this.readOnly = readOnly;
-	}
 
 	public String getLabel() {
 		return label;
@@ -134,6 +129,32 @@ public class InputField {
 	public void setOnChange(String onclick) {
 		this.onChange = onclick;
 	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+	public String getClasses() {
+		return classes;
+	}
+
+	public void setClasses(String classes) {
+		this.classes = classes;
+	}
+
+	public String getHelp() {
+		return help;
+	}
+
+	public void setHelp(String help) {
+		this.help = help;
+	}
+	
+	
 	
 	
 }

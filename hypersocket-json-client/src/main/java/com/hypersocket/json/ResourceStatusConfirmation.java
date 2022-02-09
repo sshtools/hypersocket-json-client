@@ -22,6 +22,8 @@ package com.hypersocket.json;
 
 public class ResourceStatusConfirmation<T> extends ResourceStatus<T> {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String[] options;
 	private Object[] args;
 

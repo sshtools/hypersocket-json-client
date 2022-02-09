@@ -22,8 +22,9 @@ package com.hypersocket.json;
 
 public class JsonRole extends JsonResource {
 	
+	private static final long serialVersionUID = 1L;
 	
-	JsonResource[] permissions;
+	private JsonResource[] permissions;
 	
 	public JsonResource[] getPermissions() {
 		return permissions;

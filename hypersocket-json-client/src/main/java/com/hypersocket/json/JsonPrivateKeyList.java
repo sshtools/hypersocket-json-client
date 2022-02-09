@@ -22,6 +22,8 @@ package com.hypersocket.json;
 
 public class JsonPrivateKeyList extends JsonResourceList<JsonPrivateKey> {
 
+	private static final long serialVersionUID = 1L;
+
 	public JsonPrivateKeyList() {
 		
 	}

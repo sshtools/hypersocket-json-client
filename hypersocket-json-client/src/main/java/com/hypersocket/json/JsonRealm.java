@@ -25,4 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown =  true)
 public class JsonRealm extends JsonResource {
 
+	private static final long serialVersionUID = 1L;
+
 }

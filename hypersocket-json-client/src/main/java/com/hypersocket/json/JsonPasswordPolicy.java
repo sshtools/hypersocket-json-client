@@ -22,25 +22,27 @@ package com.hypersocket.json;
 
 public class JsonPasswordPolicy extends JsonResource {
 
-	Integer minimumLength;
-	Integer maximumLength;
-	Boolean containUsername;
-	Boolean containDictionaryWord;
-	Integer priority;
-	Integer minimumCriteriaMatches;
-	Integer minimumDigits;
-	Integer minimumLower;
-	Integer minimumUpper;
-	Integer minimumSymbol;
-	String validSymbols;
-	Integer passwordHistory;
-	Integer minimumAge;
-	Integer maximumAge;
-	Integer hashValue;
-	String dn;
-	String provider;
-	Boolean allowEdit;
-	Boolean defaultPolicy;
+	private static final long serialVersionUID = 1L;
+	
+	private Integer minimumLength;
+	private Integer maximumLength;
+	private Boolean containUsername;
+	private Boolean containDictionaryWord;
+	private Integer priority;
+	private Integer minimumCriteriaMatches;
+	private Integer minimumDigits;
+	private Integer minimumLower;
+	private Integer minimumUpper;
+	private Integer minimumSymbol;
+	private String validSymbols;
+	private Integer passwordHistory;
+	private Integer minimumAge;
+	private Integer maximumAge;
+	private Integer hashValue;
+	private String dn;
+	private String provider;
+	private Boolean allowEdit;
+	private Boolean defaultPolicy;
 	
 	public Integer getMinimumLength() {
 		return minimumLength;

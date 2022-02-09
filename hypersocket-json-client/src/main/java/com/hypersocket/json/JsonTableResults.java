@@ -22,7 +22,9 @@ package com.hypersocket.json;
 
 public class JsonTableResults<T extends JsonResource> extends JsonResourceList<T> {
 
-	long total;
+	private static final long serialVersionUID = 1L;
+	
+	private long total;
 
 	public long getTotal() {
 		return total;
