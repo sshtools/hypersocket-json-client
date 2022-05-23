@@ -477,6 +477,19 @@ public class HypersocketUtils {
 		
 		return date.getTime();
 	}
+	
+	public static Date sevenDays() {
+		
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		
+		date.add(Calendar.DAY_OF_MONTH, 7);
+		
+		return date.getTime();
+	}
 
 	public static byte[] getUTF8Bytes(String str) {
 		try {
