@@ -18,22 +18,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Hypersocket JSON Client.  If not, see http://www.gnu.org/licenses/.
  */
-package com.hypersocket.json;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class JsonPermissionList {
-	JsonPermission[] permissions;
-
-	public JsonPermission[] getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(JsonPermission[] permissions) {
-		this.permissions = permissions;
-	}
-	
-	
+module com.hypersocket.json {
+	exports com.hypersocket.json;
+	exports com.hypersocket.json.input;
+	exports com.hypersocket.json.utils;
+	exports com.hypersocket.json.version;
+	requires com.fasterxml.jackson.annotation;
+	requires java.xml;
+	requires transitive okhttp3;
+	requires com.fasterxml.jackson.core;
+	requires transitive com.fasterxml.jackson.databind;
+	requires java.prefs;
+	requires org.apache.commons.lang3;
+	requires java.xml.bind;
 }

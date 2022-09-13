@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Hypersocket JSON Client.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Hypersocket JSON Client.  If not, see http://www.gnu.org/licenses/.
  */
 package com.hypersocket.json.utils;
 
