@@ -262,7 +262,7 @@ public class JsonClient {
 	}
 
 	public void logoff() throws JsonParseException,
-			JsonMappingException, JsonStatusException, IOException {
+			JsonMappingException, JsonStatusException, IOException, URISyntaxException {
 
 		doGet("api/logoff");
 		removePermanentHeader("X-Csrf-Token");
