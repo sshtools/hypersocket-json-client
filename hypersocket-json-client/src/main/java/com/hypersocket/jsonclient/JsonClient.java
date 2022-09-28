@@ -20,6 +20,7 @@
  */
 package com.hypersocket.jsonclient;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -49,6 +50,7 @@ import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -260,7 +262,7 @@ public class JsonClient {
 	}
 
 	public void logoff() throws JsonParseException,
-			JsonMappingException, JsonStatusException, IOException, URISyntaxException {
+			JsonMappingException, JsonStatusException, IOException {
 
 		doGet("api/logoff");
 		removePermanentHeader("X-Csrf-Token");
@@ -434,53 +436,33 @@ public class JsonClient {
 		} 
 	}
 
-//	public String doPostMultiparts(String url,
-//			PropertyObject[] properties, MultipartObject... files)
-//			throws IOException, JsonStatusException {
-//		
-//		if (!url.startsWith("/")) {
-//			url = "/" + url;
-//		}
-//		
-//		url = HypersocketUtils.encodeURIPath(url);
-//		
-//		HttpPost postMethod = new HttpPost(String.format("https://%s:%d%s%s", hostname, port, path, url));
-//		postMethod.addHeader("X-Csrf-Token", session==null ? "<unknown>" : session.getCsrfToken());
-//		
-//		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-//		if (properties != null && properties.length > 0) {
-//			for (PropertyObject property : properties) {
-//				builder.addPart(property.getProertyName(), new StringBody(
-//						property.getPropertyValue(),
-//						ContentType.APPLICATION_FORM_URLENCODED));
-//			}
-//		}
-//		for (MultipartObject file : files) {
-//			builder.addPart(file.getProperty(), new FileBody(file.getFile()));
-//		}
-//		HttpEntity reqEntity = builder.build();
-//		postMethod.setEntity(reqEntity);
-//		
-//		if(log.isInfoEnabled()) {
-//			log.info("Executing request " + postMethod.getRequestLine());
-//		}
-//		
-//		CloseableHttpResponse response = HttpUtilsHolder.getInstance().execute(postMethod, allowSelfSigned);
-//		
-//		if(log.isInfoEnabled()) {
-//			log.info("Response: " + response.getStatusLine().toString());
-//		}
-//		
-//		if (response.getStatusLine().getStatusCode() != 200) {
-//			throw new JsonStatusException(response.getStatusLine().getStatusCode());
-//		}
-//
-//		try {
-//			return IOUtils.toString(response.getEntity().getContent(), "UTF-8");
-//		} finally {
-//			response.close();
-//		}
-//	}
+	public String uploadFile(String url, File file) throws IOException, JsonStatusException {
+	    
+	    	url = HypersocketUtils.encodeURIPath(url);
+	    	
+	    	url = buildUrl(url);
+
+	        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+	        		.addFormDataPart("file", file.getName(),
+	                        RequestBody.create(file, MediaType.parse("application/octet-stream")))
+	                .build();
+
+	        Request request = new Request.Builder()
+	                .url(url)
+	                .post(requestBody)
+	                .build();
+
+	        try(Response response = getClient().newCall(request).execute()) {
+
+				if(response.code()!=200) {
+					throw new JsonStatusException(response.code());
+				}
+				
+				return response.body().string();
+			} catch (KeyManagementException | NoSuchAlgorithmException e) {
+				throw new IOException(e.getMessage(), e);
+			} 
+	}
 
 	public <T> T doGet(String url, Class<T> clz)
 			throws JsonStatusException, IOException {
