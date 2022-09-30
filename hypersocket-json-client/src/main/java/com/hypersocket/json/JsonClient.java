@@ -326,7 +326,7 @@ public class JsonClient {
 		
 		url = HypersocketUtils.encodeURIPath(url);
 		
-		RequestBody body = RequestBody.create(JSON, json);
+		RequestBody body = RequestBody.create(json, JSON);
 		
 		Request.Builder request = new Request.Builder()
         .url(buildUrl(url))
@@ -438,13 +438,17 @@ public class JsonClient {
 	}
 
 	public String uploadFile(String url, File file) throws IOException, JsonStatusException {
+		return uploadFile(url, file, file.getName());
+	}
+	
+	public String uploadFile(String url, File file, String filename) throws IOException, JsonStatusException {
 	    
 	    	url = HypersocketUtils.encodeURIPath(url);
 	    	
 	    	url = buildUrl(url);
 
 	        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-	        		.addFormDataPart("file", file.getName(),
+	        		.addFormDataPart("file", filename,
 	                        RequestBody.create(file, MediaType.parse("application/octet-stream")))
 	                .build();
 
