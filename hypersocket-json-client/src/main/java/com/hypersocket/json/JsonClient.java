@@ -519,6 +519,13 @@ public class JsonClient {
 		return doPost(url, json);
 	}
 
+	public <T> T doPostJson(String url, Object jsonObject, Class<T> responseClz)
+			throws URISyntaxException, IllegalStateException, IOException, JsonStatusException {
+		String json = doPost(url, mapper.writeValueAsString(jsonObject));
+		debugJSON(json);
+		return mapper.readValue(json, responseClz);
+	}
+
 	public ObjectMapper getMapper() {
 		return mapper;
 	}

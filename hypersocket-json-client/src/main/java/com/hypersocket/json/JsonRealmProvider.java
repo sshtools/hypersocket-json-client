@@ -20,62 +20,21 @@
  */
 package com.hypersocket.json;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@SuppressWarnings("serial")
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class JsonResourceList<T> implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown =  true)
+public class JsonRealmProvider extends JsonResource {
 
-	boolean success;
-	String error;
+	private static final long serialVersionUID = 1L;
 	
-	T[] resources;
-	
-	Map<String,String> properties;
-	
-	public boolean isSuccess() {
-		return success;
+	private String module;
+
+	public String getModule() {
+		return module;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setModule(String module) {
+		this.module = module;
 	}
 
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-
-	public T[] getResources() {
-		return resources;
-	}
-
-	public void setResources(T[] resources) {
-		this.resources = resources;
-	}
-
-	public T[] getResult() {
-		return resources;
-	}
-
-	public void setResult(T[] result) {
-		this.resources = result;
-	}
-
-	public Map<String, String> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
-	}
-	
-	
-	
 }

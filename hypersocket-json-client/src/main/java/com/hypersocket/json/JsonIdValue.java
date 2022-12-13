@@ -20,33 +20,31 @@
  */
 package com.hypersocket.json;
 
-import java.util.Map;
+import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JsonConfigurationTemplate {
+public class JsonIdValue implements Serializable {
+
+	private String id;
 	private String value;
-	private long id;
-	private String resourceKey;
-	private String defaultValue;
-	private Map<String, String> attributes;
-	private boolean required;
-
-	public boolean isRequired() {
-		return required;
+	
+	public JsonIdValue() {
+	}
+	
+	public JsonIdValue(String id, String value) {
+		this.id = id;
+		this.value = value;
 	}
 
-	public void setRequired(boolean required) {
-		this.required = required;
+	public String getId() {
+		return id;
 	}
 
-	public Map<String, String> getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(Map<String, String> attributes) {
-		this.attributes = attributes;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getValue() {
@@ -55,30 +53,6 @@ public class JsonConfigurationTemplate {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getResourceKey() {
-		return resourceKey;
-	}
-
-	public void setResourceKey(String resourceKey) {
-		this.resourceKey = resourceKey;
-	}
-
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
 	}
 
 }

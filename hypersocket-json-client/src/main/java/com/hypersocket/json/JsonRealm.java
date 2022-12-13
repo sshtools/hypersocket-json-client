@@ -26,5 +26,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class JsonRealm extends JsonResource {
 
 	private static final long serialVersionUID = 1L;
+	
+	private String resourceCategory;
+
+	public String getResourceCategory() {
+		return resourceCategory;
+	}
+
+	public void setResourceCategory(String resourceCategory) {
+		this.resourceCategory = resourceCategory;
+	}
+	
+	
 
 }
