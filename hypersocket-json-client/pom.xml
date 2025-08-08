@@ -97,10 +97,6 @@
 	</dependencies>
 	<build>
 		<plugins>
-		 	<plugin>
-          		<groupId>org.sonatype.central</groupId>
-          		<artifactId>central-publishing-maven-plugin</artifactId>
-        	</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
@@ -211,7 +207,7 @@
           		<version>0.8.0</version>
           		<extensions>true</extensions>
           		<configuration>
-          			<autopublish>true</autopublish>
+          			<autoPublish>true</autoPublish>
             		<publishingServerId>central-sshtools</publishingServerId>
           		</configuration>
         	</plugin>
