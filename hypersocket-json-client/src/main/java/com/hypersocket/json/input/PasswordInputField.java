@@ -21,8 +21,26 @@
 package com.hypersocket.json.input;
 
 public class PasswordInputField extends InputField {
+	
+	private boolean autocomplete;
 
 	public PasswordInputField(String resourceKey, String defaultValue, boolean required, String label) {
 		super(InputFieldType.password, resourceKey, defaultValue, required, label);
+		this.setAutocomplete(false);
 	}
+	
+	public PasswordInputField(String resourceKey, String defaultValue, boolean required, String label, boolean autocomplete) {
+		super(InputFieldType.password, resourceKey, defaultValue, required, label);
+		this.setAutocomplete(autocomplete);
+	}
+
+	public boolean isAutocomplete() {
+		return autocomplete;
+	}
+
+	public void setAutocomplete(boolean autocomplete) {
+		this.autocomplete = autocomplete;
+	}
+	
+	
 }
